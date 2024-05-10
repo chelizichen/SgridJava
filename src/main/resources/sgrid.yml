@@ -1,0 +1,14 @@
+server:
+  name: SgridApplication
+  port: 12994
+  host: 127.0.0.1
+  protocol: http
+  language: java
+config:
+  redis-addr: 127.0.0.1:6379
+  redis-pass: ''
+  staticPath: '' # 静态资源
+  uploadPath: ''
+  mysql-addr: jdbc:mysql://localhost:3306/java_shop?setUnicode=true&characterEncoding=utf8
+  mysql-username: root
+  mysql-password: '123456'
