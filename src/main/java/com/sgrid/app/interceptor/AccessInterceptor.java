@@ -1,4 +1,4 @@
-package spring.app.interceptor;
+package com.sgrid.app.interceptor;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

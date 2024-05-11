@@ -9,9 +9,9 @@
         <relativePath/>
     </parent>
     <groupId>com.sgrid</groupId>
-    <artifactId>SgridApp</artifactId>
+    <artifactId>sgridApp</artifactId>
     <version>0.0.1</version>
-    <name>SgridJava</name>
+    <name>SgridApplication</name>
     <description>SgridFramework Node Implementation, provide a lib to init SgridServer
     </description>
     <properties>
@@ -72,6 +72,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.sgrid.app.SgridApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

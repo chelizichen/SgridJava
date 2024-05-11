@@ -1,4 +1,4 @@
-package spring.app.configuration;
+package com.sgrid.app.configuration;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

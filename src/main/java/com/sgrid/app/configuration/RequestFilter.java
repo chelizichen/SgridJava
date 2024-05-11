@@ -1,10 +1,10 @@
-package spring.app.configuration;
+package com.sgrid.app.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import spring.app.interceptor.AccessInterceptor;
+import com.sgrid.app.interceptor.AccessInterceptor;
 
 @Configuration
 public class RequestFilter implements WebMvcConfigurer {

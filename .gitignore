@@ -3,3 +3,5 @@ target
 .idea
 
 lib.iml
+
+*.tar.gz
