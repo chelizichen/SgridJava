@@ -18,6 +18,8 @@ public class SgridConf implements SgridConfInterface {
 
     private final static String SGRID_CONFIG = "SGRID_CONFIG";
 
+    private final static String SGRID_PROCESS_INDEX = "SGRID_PROCESS_INDEX";
+
     public Server server;
     public HashMap<String, String> config = new HashMap<>();
 
@@ -83,6 +85,14 @@ public class SgridConf implements SgridConfInterface {
         this.config = config;
     }
 
+
+    public boolean threadLock(){
+        String sgridProdConf = System.getenv(SGRID_CONFIG);
+        if(sgridProdConf.isEmpty()){
+            return System.getenv(SGRID_PROCESS_INDEX).equals("1");
+        }
+        return true;
+    }
 
 //    public static void main(String[] args) throws IOException {
 //        String content = "server:\n" +
