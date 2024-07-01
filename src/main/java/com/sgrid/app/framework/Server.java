@@ -47,4 +47,10 @@ public class Server {
     public void setLanguage(String language) {
         this.language = language;
     }
+
+    @Override
+    public String toString() {
+        return "Server [port=" + port + ", name=" + name + ", host=" + host + ", protocol=" + protocol + ", language="
+                + language + "]";
+    }
 }

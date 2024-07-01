@@ -1,6 +1,5 @@
 package com.sgrid.app.framework;
 
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -12,36 +11,38 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Component
-public class SgridConf implements SgridConfInterface {
-    @Bean
-    public TomcatServletWebServerFactory servletContainer() {
-        System.out.println(" init Sgrid Configuration ");
-        return new TomcatServletWebServerFactory(server.port);
-    }
+public class SgridConf {
 
-    // Static
+    private boolean isConfigured = false; // 标志位，表示配置是否已被设置
     private final static String SGRID_TARGET_PORT = "SGRID_TARGET_PORT";
     private final static String SGRID_DEV_CONF = "sgrid.yml";
-
-
     private final static String SGRID_CONFIG = "SGRID_CONFIG";
-
     private final static String SGRID_PROCESS_INDEX = "SGRID_PROCESS_INDEX";
 
     public Server server;
     public HashMap<String, String> config = new HashMap<>();
 
-    private boolean isConfigured = false; // 标志位，表示配置是否已被设置
-
     @PostConstruct
     public void init() {
         if (!isConfigured) {
-            this.SetSgridConf();
-            this.SetDBProperty(config.get("mysql-addr"), config.get("mysql-username"), config.get("mysql-password"));
             isConfigured = true; // 设置标志位，表示配置已完成
+            // 这一步必须要执行
+            this.SetSgridConf();
+            // 这一步选执行，只是提供参考设置的样例代码 ！
+            this.SetDBProperty(config.get("mysql-addr"), config.get("mysql-username"), config.get("mysql-password"));
         }
     }
 
+    @Bean
+    public ServletContainer servletContainer() {
+        System.out.println("[Sgrid-Java] [info] init servletContainer ");
+        return new ServletContainer();
+    }
+
+    @Override
+    public String toString() {
+        return "SgridConf [server=" + server + ", config=" + config + ", isConfigured=" + isConfigured + "]";
+    }
 
     private SgridConf loadDevConf(Resource resource) throws IOException {
         Yaml yaml = new Yaml();
@@ -53,35 +54,29 @@ public class SgridConf implements SgridConfInterface {
         return yaml.loadAs(yamlContent, SgridConf.class);
     }
 
-    @Override
     public void SetDBProperty(String url, String username, String password) {
         System.setProperty("spring.datasource.url", url);
         System.setProperty("spring.datasource.username", username);
         System.setProperty("spring.datasource.password", password);
     }
 
-    @Override
     public void SetSgridConf() {
         try {
             String sgridProdConf = System.getenv(SGRID_CONFIG);
             String sgridTargetPort = System.getenv(SGRID_TARGET_PORT);
-            if (sgridProdConf == null || sgridProdConf.isEmpty()) {
-                System.out.println("run dev ::  " + SGRID_DEV_CONF);
+            if (sgridProdConf == null || sgridProdConf.isEmpty()) { // 测试环境下
                 Resource resource = new ClassPathResource(SGRID_DEV_CONF);
                 SgridConf sgridConf = loadDevConf(resource);
                 setServer(sgridConf.server);
                 setConfig(sgridConf.config);
-                System.out.println("server :: " + server);
-                System.out.println("config :: " + config);
-            } else {
-                System.out.println("run prod :: " + sgridProdConf);
+            } else {    // 生产环境下 有配置 需要将 PORT 塞到 server.config中
                 SgridConf sgridConf = loadProdConf(sgridProdConf);
                 setServer(sgridConf.server);
                 setConfig(sgridConf.config);
                 server.setPort(Integer.valueOf(sgridTargetPort));
             }
         } catch (Exception e) {
-            System.out.println("Init Sgrid Configuration Error :: " + e);
+            System.err.println("[Sgrid-Java] [error] Error Init SetSgridConf "+e);
         }
     }
 
@@ -101,4 +96,5 @@ public class SgridConf implements SgridConfInterface {
         }
         return true;
     }
+
 }
