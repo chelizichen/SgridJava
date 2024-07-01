@@ -1,5 +1,7 @@
 package com.sgrid.app.framework;
 
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,12 @@ import java.util.HashMap;
 
 @Component
 public class SgridConf implements SgridConfInterface {
+    @Bean
+    public TomcatServletWebServerFactory servletContainer() {
+        System.out.println(" init Sgrid Configuration ");
+        return new TomcatServletWebServerFactory(server.port);
+    }
+
     // Static
     private final static String SGRID_TARGET_PORT = "SGRID_TARGET_PORT";
     private final static String SGRID_DEV_CONF = "sgrid.yml";
@@ -93,24 +101,4 @@ public class SgridConf implements SgridConfInterface {
         }
         return true;
     }
-
-//    public static void main(String[] args) throws IOException {
-//        String content = "server:\n" +
-//                "  name: SgirdCloud\n" +
-//                "  host: 127.0.0.1\n" +
-//                "  port: 15411\n" +
-//                "  protocol: http\n" +
-//                "  language: node\n" +
-//                "config:\n" +
-//                "  db_master:  root:123456@tcp(127.0.0.1:3306)/sgrid?charset=utf8&parseTime=true\n" +
-//                "  db_slave: root:123456@tcp(127.0.0.1:3306)/sgrid?charset=utf8&parseTime=true";
-//
-//        SgridConf sgridConf = new SgridConf();
-//        Properties properties = new Properties();
-//        SgridConf sgridConf1 = sgridConf.loadProdConf(content);
-//        sgridConf.config = sgridConf1.config;
-//        sgridConf.server = sgridConf1.server;
-//        System.out.println("sgridConf.config || " + sgridConf.config);
-//        System.out.println("sgridConf.server || " + sgridConf.server);
-//    }
 }

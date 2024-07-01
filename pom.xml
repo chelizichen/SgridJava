@@ -12,7 +12,7 @@
     <artifactId>sgridApp</artifactId>
     <version>0.0.1</version>
     <name>SgridApplication</name>
-    <description>SgridFramework Node Implementation, provide a lib to init SgridServer
+    <description>SgridFramework Java Implementation, provide a lib to init SgridServer
     </description>
     <properties>
         <java.version>8</java.version>
