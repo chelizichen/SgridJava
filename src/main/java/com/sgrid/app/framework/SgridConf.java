@@ -1,23 +1,22 @@
 package com.sgrid.app.framework;
 
+import java.io.IOException;
+import java.util.HashMap;
+import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.util.HashMap;
-
 @Component
 public class SgridConf {
 
     private boolean isConfigured = false; // 标志位，表示配置是否已被设置
-    private final static String SGRID_TARGET_PORT = "SGRID_TARGET_PORT";
-    private final static String SGRID_DEV_CONF = "sgrid.yml";
-    private final static String SGRID_CONFIG = "SGRID_CONFIG";
-    private final static String SGRID_PROCESS_INDEX = "SGRID_PROCESS_INDEX";
+    private static final String SGRID_TARGET_PORT = "SGRID_TARGET_PORT";
+    private static final String SGRID_DEV_CONF = "sgrid.yml";
+    private static final String SGRID_CONFIG = "SGRID_CONFIG";
+    private static final String SGRID_PROCESS_INDEX = "SGRID_PROCESS_INDEX";
 
     public Server server;
     public HashMap<String, String> config = new HashMap<>();
@@ -29,7 +28,11 @@ public class SgridConf {
             // 这一步必须要执行
             this.SetSgridConf();
             // 这一步选执行，只是提供参考设置的样例代码 ！
-            this.SetDBProperty(config.get("mysql-addr"), config.get("mysql-username"), config.get("mysql-password"));
+            this.SetDBProperty(
+                    config.get("mysql-addr"),
+                    config.get("mysql-username"),
+                    config.get("mysql-password")
+                );
         }
     }
 
@@ -41,7 +44,15 @@ public class SgridConf {
 
     @Override
     public String toString() {
-        return "SgridConf [server=" + server + ", config=" + config + ", isConfigured=" + isConfigured + "]";
+        return (
+            "SgridConf [server=" +
+            server +
+            ", config=" +
+            config +
+            ", isConfigured=" +
+            isConfigured +
+            "]"
+        );
     }
 
     private SgridConf loadDevConf(Resource resource) throws IOException {
@@ -69,14 +80,16 @@ public class SgridConf {
                 SgridConf sgridConf = loadDevConf(resource);
                 setServer(sgridConf.server);
                 setConfig(sgridConf.config);
-            } else {    // 生产环境下 有配置 需要将 PORT 塞到 server.config中
+            } else { // 生产环境下 有配置 需要将 PORT 塞到 server.config中
                 SgridConf sgridConf = loadProdConf(sgridProdConf);
                 setServer(sgridConf.server);
                 setConfig(sgridConf.config);
                 server.setPort(Integer.valueOf(sgridTargetPort));
             }
         } catch (Exception e) {
-            System.err.println("[Sgrid-Java] [error] Error Init SetSgridConf "+e);
+            System.err.println(
+                "[Sgrid-Java] [error] Error Init SetSgridConf " + e
+            );
         }
     }
 
@@ -88,13 +101,15 @@ public class SgridConf {
         this.config = config;
     }
 
-
-    public boolean threadLock(){
+    public boolean threadLock() {
         String sgridProdConf = System.getenv(SGRID_CONFIG);
-        if(sgridProdConf.isEmpty()){
+        if (sgridProdConf.isEmpty()) {
             return System.getenv(SGRID_PROCESS_INDEX).equals("1");
         }
         return true;
     }
 
+    public String get(String path){
+        return config.get(path);
+    }
 }
