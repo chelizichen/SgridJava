@@ -6,6 +6,12 @@
 mvn spring-boot:run
 ````
 
+或者使用 sgrid-cli 脚手架
+
+````sh
+sgrid run:springboot 
+````
+
 ## BUILD
 
 ````sh
@@ -15,6 +21,12 @@ rm -r $ServerName.tar.gz
 mvn compile
 mvn deploy
 tar -cvf $ServerName.tar.gz ./target
+````
+
+或者使用 sgrid-cli 脚手架
+
+````sh
+sgrid release:springboot -s SgridJavaDemoServer
 ````
 
 ## DEPLOY
