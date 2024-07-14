@@ -4,7 +4,7 @@ readonly ServerName="SgridJavaServer"
 
 rm -r $ServerName.tar.gz
 
-mvn compile
-mvn deploy
+#mvn compile
+#mvn deploy
 
-tar -cvf $ServerName.tar.gz ./target
+tar -czvf $ServerName.tar.gz ./target

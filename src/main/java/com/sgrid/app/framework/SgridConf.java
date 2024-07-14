@@ -28,12 +28,13 @@ public class SgridConf {
             // 这一步必须要执行
             this.SetSgridConf();
             // 这一步选执行，只是提供参考设置的样例代码 ！
-            this.SetDBProperty(
-                    config.get("mysql-addr"),
-                    config.get("mysql-username"),
-                    config.get("mysql-password")
-                );
+//            this.SetDBProperty(
+//                    config.get("mysql-addr"),
+//                    config.get("mysql-username"),
+//                    config.get("mysql-password")
+//                );
         }
+
     }
 
     @Bean
@@ -112,4 +113,5 @@ public class SgridConf {
     public String get(String path){
         return config.get(path);
     }
+
 }
