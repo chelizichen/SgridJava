@@ -11,18 +11,18 @@ import com.sgrid.app.framework.SgridConf;
 public class StaticResource extends WebMvcConfigurerAdapter {
 
     @Autowired
-    private SgridConf config;
+    private SgridConf sgridConf;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        String uploadPath = "file:" + config.config.get("uploadPath");
-//        String webPath = "file:" + config.config.get("staticPath");
-//        System.out.println("uploadPath" + uploadPath);
-//        System.out.println("webPath" + webPath);
-//        registry.addResourceHandler("/staticfiles/**")
-//                .addResourceLocations(uploadPath);
-//        registry.addResourceHandler("/web/**")
-//                .addResourceLocations(webPath);
+        String uploadPath = "file:" + sgridConf.get("uploadPath");
+        String webPath = "file:" + sgridConf.get("staticPath");
+        System.out.println("uploadPath" + uploadPath);
+        System.out.println("webPath" + webPath);
+        registry.addResourceHandler("/staticfiles/**")
+                .addResourceLocations(uploadPath);
+        registry.addResourceHandler("/web/**")
+                .addResourceLocations(webPath);
         super.addResourceHandlers(registry);
     }
 }

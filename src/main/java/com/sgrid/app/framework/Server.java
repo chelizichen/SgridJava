@@ -50,7 +50,12 @@ public class Server {
 
     @Override
     public String toString() {
-        return "Server [port=" + port + ", name=" + name + ", host=" + host + ", protocol=" + protocol + ", language="
-                + language + "]";
+        return "[Sgrid-Java] Server{" +
+                "port=" + port +
+                ", name='" + name + '\'' +
+                ", host='" + host + '\'' +
+                ", protocol='" + protocol + '\'' +
+                ", language='" + language + '\'' +
+                '}';
     }
 }
